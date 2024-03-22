@@ -21,15 +21,15 @@ public class SendAndReceive extends AppCompatActivity {
     List<Info> infoList; // 新建一个list，list内部可以容纳Website实例
     InfoAdapter adapter; // 定义适配器为成员变量，以便在其他方法中也可以访问
 
+    String senderId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_and_receive);
 
         Intent intent = getIntent();
-        String userId = intent.getStringExtra("userId"); // Make sure the key matches
-
-        Log.d("USERID", userId);
+        senderId = intent.getStringExtra("userId");
 
         infoRecyclerView = findViewById(R.id.recyclerView);
 
