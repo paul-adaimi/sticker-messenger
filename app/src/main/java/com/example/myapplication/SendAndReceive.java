@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SendAndReceive extends AppCompatActivity {
-
+public class SendAndReceive extends AppCompatActivity implements StickersDialog.StickersDialogListener {
+    ImageView selectedSticker;
     RecyclerView infoRecyclerView;
     List<Info> infoList; // 新建一个list，list内部可以容纳Website实例
     InfoAdapter adapter; // 定义适配器为成员变量，以便在其他方法中也可以访问
@@ -32,6 +32,7 @@ public class SendAndReceive extends AppCompatActivity {
         senderId = intent.getStringExtra("userId");
 
         infoRecyclerView = findViewById(R.id.recyclerView);
+        selectedSticker = findViewById(R.id.selected_sticker);
 
         // initialize infoList
         infoList = new ArrayList<>();
@@ -45,12 +46,26 @@ public class SendAndReceive extends AppCompatActivity {
         infoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new InfoAdapter(infoList, this);
         infoRecyclerView.setAdapter(adapter);
-
-
     }
 
     public void openStickersDialog(View view) {
         StickersDialog dialog = new StickersDialog();
         dialog.show(getSupportFragmentManager(), "Stickers Dialog");
+    }
+
+    @Override
+    public void applyStickerId(int stickerId) {
+        switch(stickerId) {
+            case 0:
+                selectedSticker.setImageDrawable(getDrawable(R.drawable.sticker_22));
+                break;
+            case 1:
+                selectedSticker.setImageDrawable(getDrawable(R.drawable.sticker_7));
+                break;
+            case 2:
+                selectedSticker.setImageDrawable(getDrawable(R.drawable.sticker_2));
+                break;
+            default:
+        }
     }
 }

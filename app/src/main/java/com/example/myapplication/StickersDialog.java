@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 
 public class StickersDialog extends AppCompatDialogFragment {
     ArrayList<ImageView> stickers = new ArrayList<>();
+    private StickersDialogListener listener;
+
+    int selectedId;
 
     @NonNull
     @Override
@@ -35,7 +39,7 @@ public class StickersDialog extends AppCompatDialogFragment {
         }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                listener.applyStickerId(selectedId);
             }
         });
 
@@ -57,9 +61,25 @@ public class StickersDialog extends AppCompatDialogFragment {
                         imageView.setBackgroundColor(getResources().getColor(R.color.white));
                     }
 
+                    selectedId = stickers.indexOf(view);
                     view.setBackgroundColor(getResources().getColor(R.color.light_blue));
                 }
             });
         }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        try {
+            listener = (StickersDialogListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString());
+        }
+    }
+
+    public interface StickersDialogListener {
+        void applyStickerId(int stickerId);
     }
 }
