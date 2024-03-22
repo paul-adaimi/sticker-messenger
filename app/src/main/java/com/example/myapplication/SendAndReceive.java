@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,11 @@ public class SendAndReceive extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_and_receive);
+
+        Intent intent = getIntent();
+        String userId = intent.getStringExtra("userId"); // Make sure the key matches
+
+        Log.d("USERID", userId);
 
         infoRecyclerView = findViewById(R.id.recyclerView);
 
