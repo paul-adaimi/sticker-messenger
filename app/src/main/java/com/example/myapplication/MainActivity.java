@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseReference dbRef;
 
+    DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         dbRef = database.getReference("names");
+        databaseHelper = new DatabaseHelper();
 
         loginButton = findViewById(R.id.button);
         userName = findViewById(R.id.edit_user_name);
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testName(String userName) {
-        CheckValueCallback callback = new CheckValueCallback() {
+        DatabaseHelper.CheckValueCallback callback = new DatabaseHelper.CheckValueCallback() {
             @Override
             public void onValueChecked(String existingUserId) {
                 String id;
@@ -61,31 +64,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        isUserPresent(userName, callback);
-    }
-
-    private void isUserPresent(String name, CheckValueCallback callBack) {
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    if(dataSnapshot1.getValue().toString().equals(name)) {
-                        callBack.onValueChecked(dataSnapshot1.getKey());
-                        return;
-                    }
-                }
-                callBack.onValueChecked(null);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Failed to read value
-                Log.w("WILL", "Failed to read value.", error.toException());
-            }
-        });
-    }
-
-    public interface CheckValueCallback {
-        void onValueChecked(String existingUserId);
+        databaseHelper.isUserPresent(userName, callback);
     }
 }

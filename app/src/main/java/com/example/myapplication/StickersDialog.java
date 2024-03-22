@@ -61,7 +61,7 @@ public class StickersDialog extends AppCompatDialogFragment {
                         imageView.setBackgroundColor(getResources().getColor(R.color.white));
                     }
 
-                    selectedId = stickers.indexOf(view);
+                    selectedId = stickers.indexOf(view) + 1;
                     view.setBackgroundColor(getResources().getColor(R.color.light_blue));
                 }
             });
