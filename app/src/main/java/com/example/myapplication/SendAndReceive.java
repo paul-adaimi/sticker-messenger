@@ -80,7 +80,9 @@ public class SendAndReceive extends AppCompatActivity implements StickersDialog.
                     DatabaseReference receiverRef = dbRef.child(existingUserId).child("received").child(senderId).child("messages").child(messageId);
                     DatabaseReference senderRef = dbRef.child(senderId).child("sent").child(existingUserId).child("messages").child(messageId);
                     receiverRef.child("message").setValue(selectedStickerId);
+                    receiverRef.child("timeStamp").setValue(System.currentTimeMillis());
                     senderRef.child("message").setValue(selectedStickerId);
+                    senderRef.child("timeStamp").setValue(System.currentTimeMillis());
                 } else {
                     Toast.makeText(getApplicationContext(), "User does not exist", Toast.LENGTH_SHORT).show();
                 }
