@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.button);
         userName = findViewById(R.id.edit_user_name);
         loginButton.setOnClickListener(view -> {
-            testName(userName.getText().toString());
+            login(userName.getText().toString());
         });
     }
 
-    private void testName(String userName) {
+    private void login(String userName) {
         DatabaseHelper.CheckValueCallback callback = new DatabaseHelper.CheckValueCallback() {
             @Override
             public void onValueChecked(String existingUserId) {
@@ -56,14 +56,31 @@ public class MainActivity extends AppCompatActivity {
                     String uuid = UUID.randomUUID().toString();
                     id = uuid;
                     dbRef.child(uuid).setValue(userName);
+                    initializeCounts(id);
                 }
 
                 Intent intent = new Intent(MainActivity.this, SendAndReceive.class);
                 intent.putExtra("userId", id);
+                intent.putExtra("userName", userName);
                 startActivity(intent);
             }
         };
 
         databaseHelper.isUserPresent(userName, callback);
+    }
+
+    public void initializeCounts(String id) {
+        DatabaseReference dbCountRef = database.getReference("count");
+
+        DatabaseReference sentRef = dbCountRef.child(id).child("sent");
+        DatabaseReference receivedRef =  dbCountRef.child(id).child("received");
+        setStickersZero(sentRef);
+        setStickersZero(receivedRef);
+    }
+
+    private void setStickersZero(DatabaseReference ref) {
+        for(int i = 1; i < 4; i++) {
+            ref.child(String.valueOf(i)).setValue(0);
+        }
     }
 }
