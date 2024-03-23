@@ -39,11 +39,11 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoViewHolder>{
     public int getImageResourceId(int messageId) {
         switch (messageId) {
             case 1:
-                return R.drawable.sticker_2; // 假设image1是你的图片资源名称
+                return R.drawable.sticker_22; // 假设image1是你的图片资源名称
             case 2:
-                return R.drawable.sticker_22;
-            case 3:
                 return R.drawable.sticker_7;
+            case 3:
+                return R.drawable.sticker_2;
             // 以此类推
             default:
                 return R.drawable.sticker_22; // 默认图片
