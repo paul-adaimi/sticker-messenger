@@ -77,7 +77,7 @@ public class SendAndReceive extends AppCompatActivity implements StickersDialog.
     }
 
     public void openStickersDialog(View view) {
-        StickersDialog dialog = new StickersDialog();
+        StickersDialog dialog = new StickersDialog(senderId);
         dialog.show(getSupportFragmentManager(), "Stickers Dialog");
     }
 
