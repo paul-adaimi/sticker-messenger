@@ -106,6 +106,18 @@ public class SendAndReceive extends AppCompatActivity implements StickersDialog.
                     receiverRef.setValue(receiverDetails);
 
                     updateCounts(senderId, existingUserId);
+                    databaseHelper.getUserToken(existingUserId, new DatabaseHelper.GetTokenCallback() {
+                        @Override
+                        public void getToken(String token) {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // Your code that runs in a new thread
+                                    databaseHelper.sendMessageToDevice(senderName, token);
+                                }
+                            }).start();
+                        }
+                    });
                 } else {
                     Toast.makeText(getApplicationContext(), "User does not exist", Toast.LENGTH_SHORT).show();
                 }

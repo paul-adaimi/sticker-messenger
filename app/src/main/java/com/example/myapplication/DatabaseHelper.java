@@ -10,15 +10,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class DatabaseHelper {
     FirebaseDatabase database;
     DatabaseReference dbUsersRef;
     DatabaseReference dbMessageRef;
+    DatabaseReference dbTokenRef;
+
+    final String serverKey = "key=AAAAqdJnky8:APA91bGB5qkFQars2eVUhWEqXfl24iLWtOjIICE7fS7lW5U4lqGI6muueKSOlBPBAsr3NW0Y_BkI03_s1liCMQMtHYOzHaL5s25FAtWcjGLBqseGvDSiAOIYTfSW_BO4NE686SguT7MZ";
 
     public DatabaseHelper() {
         database = FirebaseDatabase.getInstance();
         dbUsersRef = database.getReference("names");
         dbMessageRef = database.getReference("messages");
+        dbTokenRef = database.getReference("tokens");
     }
 
     void isUserPresent(String name, CheckValueCallback callBack) {
@@ -32,6 +44,22 @@ public class DatabaseHelper {
                     }
                 }
                 callBack.onValueChecked(null);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                Log.w("WILL", "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    void getUserToken(String userId, GetTokenCallback tokenCallback) {
+        dbTokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String token = dataSnapshot.child(userId).getValue().toString();
+                tokenCallback.getToken(token);
             }
 
             @Override
@@ -77,5 +105,48 @@ public class DatabaseHelper {
 
     public interface FindNameCallback {
         void findName(String SenderId,String ReceiverId,String SenderName,String ReceiverName);
+    }
+
+    public interface GetTokenCallback {
+        void getToken(String token);
+    }
+
+    public void sendMessageToDevice(String from, String toToken) {
+        JSONObject jPayload = new JSONObject();
+        JSONObject jNotification = new JSONObject();
+        JSONObject jData = new JSONObject();
+
+        try {
+            jNotification.put("title", "Message From " + from);
+            jNotification.put("body", "Message Body");
+            jNotification.put("sound", "default");
+            jNotification.put("badge", "1");
+
+            jData.put("title", "Data title");
+            jData.put("content", "Data Content");
+
+            jPayload.put("to", toToken);
+            jPayload.put("priority", "high");
+            jPayload.put("notification", jNotification);
+            jPayload.put("data", jData);
+
+            URL url = new URL("https://fcm.googleapis.com/fcm/send");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+
+            conn.setRequestProperty("Authorization", serverKey);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
+
+            OutputStream outputStream = conn.getOutputStream();
+            outputStream.write(jPayload.toString().getBytes("UTF-8"));
+            outputStream.close();
+
+            // Check response code to determine success or failure
+            int responseCode = conn.getResponseCode();
+            System.out.println("FCM response code: " + responseCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

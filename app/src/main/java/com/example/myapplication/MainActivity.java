@@ -9,12 +9,15 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -57,6 +60,21 @@ public class MainActivity extends AppCompatActivity {
                     id = uuid;
                     dbRef.child(uuid).setValue(userName);
                     initializeCounts(id);
+
+                    FirebaseMessaging.getInstance().getToken()
+                            .addOnCompleteListener(new OnCompleteListener<String>() {
+                                @Override
+                                public void onComplete(@NonNull Task<String> task) {
+                                    if (!task.isSuccessful()) {
+                                        return;
+                                    }
+
+                                    // Get new FCM registration token
+                                    String token = task.getResult();
+                                    DatabaseReference tokenRef = database.getReference("tokens");
+                                    tokenRef.child(id).setValue(token);
+                                }
+                            });
                 }
 
                 Intent intent = new Intent(MainActivity.this, SendAndReceive.class);
