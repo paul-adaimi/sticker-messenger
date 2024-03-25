@@ -159,3 +159,4 @@ public class StickersDialog extends AppCompatDialogFragment {
         });
     }
 }
+

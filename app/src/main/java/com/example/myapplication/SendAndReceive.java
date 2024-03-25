@@ -106,14 +106,30 @@ public class SendAndReceive extends AppCompatActivity implements StickersDialog.
                     receiverRef.setValue(receiverDetails);
 
                     updateCounts(senderId, existingUserId);
+                    String imageUrl = "";
+                    switch(selectedStickerId){
+                        case 1:
+                            imageUrl = "https://firebasestorage.googleapis.com/v0/b/will-s-version.appspot.com/o/sticker_22.png?alt=media";
+                            break;
+                        case 2:
+                            imageUrl = "https://firebasestorage.googleapis.com/v0/b/will-s-version.appspot.com/o/sticker_7.png?alt=media";
+                            break;
+                        case 3:
+                            imageUrl = "https://firebasestorage.googleapis.com/v0/b/will-s-version.appspot.com/o/sticker_2.png?alt=media";
+                            break;
+                        default:
+                            imageUrl = "https://firebasestorage.googleapis.com/v0/b/will-s-version.appspot.com/o/sticker_7.png?alt=media";
+                            break;
+                    }
+                    final String usedImageUrl = imageUrl;
+
                     databaseHelper.getUserToken(existingUserId, new DatabaseHelper.GetTokenCallback() {
                         @Override
                         public void getToken(String token) {
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    // Your code that runs in a new thread
-                                    databaseHelper.sendMessageToDevice(senderName, token);
+                                    databaseHelper.sendMessageToDevice(senderName, token, usedImageUrl);
                                 }
                             }).start();
                         }
