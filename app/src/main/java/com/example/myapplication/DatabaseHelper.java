@@ -25,6 +25,8 @@ public class DatabaseHelper {
     DatabaseReference dbTokenRef;
 
     final String serverKey = "key=AAAAqdJnky8:APA91bGB5qkFQars2eVUhWEqXfl24iLWtOjIICE7fS7lW5U4lqGI6muueKSOlBPBAsr3NW0Y_BkI03_s1liCMQMtHYOzHaL5s25FAtWcjGLBqseGvDSiAOIYTfSW_BO4NE686SguT7MZ";
+    final String willserverKey = "key=AAAAWavgJxs:APA91bE6NgLMEJtg0apu7se8nuldhDaJBW4UsRYQZHEosZfgLn-_vGRR6CLBur3AsXpf3qMGt0BUlB0V20Fp98UKwW-TD525lIqLpTPYBl3O2SJBpWp2124PDxd4jFfJeH337UQdbPF3";
+
 
     public DatabaseHelper() {
         database = FirebaseDatabase.getInstance();
@@ -111,7 +113,7 @@ public class DatabaseHelper {
         void getToken(String token);
     }
 
-    public void sendMessageToDevice(String from, String toToken) {
+    public void sendMessageToDevice(String from, String toToken, String imageUrl) {
         JSONObject jPayload = new JSONObject();
         JSONObject jNotification = new JSONObject();
         JSONObject jData = new JSONObject();
@@ -121,6 +123,7 @@ public class DatabaseHelper {
             jNotification.put("body", "Message Body");
             jNotification.put("sound", "default");
             jNotification.put("badge", "1");
+            jNotification.put("image", imageUrl);
 
             jData.put("title", "Data title");
             jData.put("content", "Data Content");
@@ -134,7 +137,7 @@ public class DatabaseHelper {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
 
-            conn.setRequestProperty("Authorization", serverKey);
+            conn.setRequestProperty("Authorization", willserverKey);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
 

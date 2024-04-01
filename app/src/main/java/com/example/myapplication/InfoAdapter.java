@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class InfoAdapter extends RecyclerView.Adapter<InfoViewHolder>{
@@ -29,6 +31,13 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoViewHolder>{
         holder.senderName.setText(infoList.get(position).senderName);
         holder.receiverName.setText(infoList.get(position).receiverName);
         holder.message.setImageResource(getImageResourceId(infoList.get(position).messageId));
+        long time = infoList.get(position).timeStamp;
+        Date date = new Date(time);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        
+        String formattedDate = sdf.format(date);
+        holder.time.setText(formattedDate);
     }
 
     @Override

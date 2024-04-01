@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "729379476271",
-    "firebase_url": "https://sticker-app-57ed9-default-rtdb.firebaseio.com",
-    "project_id": "sticker-app-57ed9",
-    "storage_bucket": "sticker-app-57ed9.appspot.com"
+    "project_number": "385135683355",
+    "firebase_url": "https://will-s-version-default-rtdb.firebaseio.com",
+    "project_id": "will-s-version",
+    "storage_bucket": "will-s-version.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:729379476271:android:aeeae5f0b367d0a67787da",
+        "mobilesdk_app_id": "1:385135683355:android:72e353517d92f0c7fe15be",
         "android_client_info": {
           "package_name": "com.example.myapplication"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAUCqHCjW4_3CQ8NoC3DF77sPp4JVUXPbg"
+          "current_key": "AIzaSyCavZSQvS9CAeUVbmEaDszt8iXgx3VgYmg"
         }
       ],
       "services": {
