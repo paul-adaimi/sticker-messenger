@@ -69,7 +69,7 @@ public class SendAndReceive extends AppCompatActivity implements StickersDialog.
 
         // 设置 RecyclerView 的 LayoutManager 和 Adapter
         infoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new InfoAdapter(infoList, this);
+        adapter = new InfoAdapter(infoList, this, senderName);
         infoRecyclerView.setAdapter(adapter);
         infoRecyclerView.setAdapter(adapter);
 

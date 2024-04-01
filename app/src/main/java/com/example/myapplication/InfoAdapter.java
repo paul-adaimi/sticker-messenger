@@ -15,10 +15,12 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoViewHolder>{
 
     private final List<Info> infoList;
     private final Context context;
+    private final String username;
 
-    public InfoAdapter(List<Info> infoList, Context context) {
+    public InfoAdapter(List<Info> infoList, Context context, String username) {
         this.infoList = infoList;
         this.context = context;
+        this.username = username;
     }
     @NonNull
     @Override
@@ -28,11 +30,17 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull InfoViewHolder holder, int position) {
-        holder.senderName.setText(infoList.get(position).senderName);
-        holder.receiverName.setText(infoList.get(position).receiverName);
+        String senderName = infoList.get(position).senderName;
+        String receiverName = infoList.get(position).receiverName;
+        holder.senderName.setText(senderName);
+        holder.receiverName.setText(receiverName);
         holder.message.setImageResource(getImageResourceId(infoList.get(position).messageId));
         long time = infoList.get(position).timeStamp;
         Date date = new Date(time);
+
+        if(senderName.equals(username)) {
+            holder.messageLayout.setBackgroundColor(0xFF8BC34A);
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         

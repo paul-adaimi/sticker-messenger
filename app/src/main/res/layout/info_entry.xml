@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -15,17 +16,17 @@
             android:id="@+id/textViewSenderLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sender"
             android:layout_marginTop="10dp"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:text="Sender" />
 
         <TextView
             android:id="@+id/textViewSenderName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Paul"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:text="Paul" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,17 +39,17 @@
             android:id="@+id/textViewRecipientLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Receiver"
             android:layout_marginTop="10dp"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:text="Receiver" />
 
         <TextView
             android:id="@+id/textViewRecipientName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Will"
             android:layout_marginTop="10dp"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:text="Will" />
     </LinearLayout>
 
     <!-- 新增的LinearLayout，包含一个TextView来显示时间 -->
@@ -64,8 +65,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewTime"
